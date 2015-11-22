@@ -1,0 +1,28 @@
+{
+  "name": "smoke-signal",
+  "version": "0.1.0",
+  "description": "Simple small functional event observer for the browser and node",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StephanHoyer/smoke-signal.git"
+  },
+  "keywords": [
+    "event",
+    "observer",
+    "pubsub"
+  ],
+  "author": "Stephan Hoyer <ste.hoyer@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StephanHoyer/smoke-signal/issues"
+  },
+  "homepage": "https://github.com/StephanHoyer/smoke-signal",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.3.4"
+  }
+}
