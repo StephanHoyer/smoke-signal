@@ -1,6 +1,6 @@
 'use strict'
 
-function signal() {
+function signal(options) {
   var listeners = []
   var api = {
     push: function(listener) {
@@ -17,7 +17,13 @@ function signal() {
     trigger: function() {
       var args = arguments
       listeners.map(function(listener) {
-        listener.apply(null, args)
+        try {
+          listener.apply(null, args)
+        } catch(e) {
+          if (options && options.logExceptions) {
+            console.error(e)
+          }
+        }
       })
       return api
     },

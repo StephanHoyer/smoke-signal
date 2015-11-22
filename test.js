@@ -37,4 +37,13 @@ describe('smoke signal', function () {
     onTrigger.trigger()
     done()
   });
+
+  it('should handle exceptions', function (done) {
+    var onTrigger = signal()
+    onTrigger.push(function() {
+      throw new Error('should not bubble up')
+    });
+    onTrigger.push(done)
+    onTrigger.trigger()
+  });
 });
