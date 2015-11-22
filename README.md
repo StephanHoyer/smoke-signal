@@ -13,19 +13,19 @@ npm install smoke-signal
 ```javascript
 var signal = require('smoke-signal')
 
-var mySignal = signal()
+var onMySignal = signal()
 
 // attach listenerFn to event
-mySignal.push(listenerFn)
+onMySignal.push(listenerFn)
 
 // trigger event
-mySignal.trigger()
+onMySignal.trigger()
 
 // unlisten to event
-mySignal.pull(listenerFn)
+onMySignal.pull(listenerFn)
 
 // remove all listeners
-mySignal.clear()
+onMySignal.clear()
 ```
 
 It's also possible to listen and trigger with args
@@ -33,13 +33,13 @@ It's also possible to listen and trigger with args
 ```javascript
 var signal = require('smoke-signal')
 
-var mySignal = signal()
+var onMySignal = signal()
 
 // attach listenerFn to event
-mySignal.push(function(arg) {
+onMySignal.push(function(arg) {
   // arg === 'foo'
 })
 
 // trigger event
-mySignal.trigger('foo')
+onMySignal.trigger('foo')
 ```
