@@ -1,6 +1,6 @@
 {
   "name": "smoke-signal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple small functional event observer for the browser and node",
   "main": "index.js",
   "scripts": {
