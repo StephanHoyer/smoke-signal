@@ -1,3 +1,5 @@
+[![rethink.js](https://img.shields.io/badge/rethink-js-yellow.svg)](https://github.com/rethinkjs/manifest)
+
 # smoke-signal
 
 Simple small functional event observer for the browser and node
