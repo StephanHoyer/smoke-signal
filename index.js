@@ -4,7 +4,9 @@ function signal(options) {
   var listeners = []
   var api = {
     push: function(listener) {
-      listeners.push(listener)
+      if (listeners.indexOf(listener) < 0) {
+        listeners.push(listener)
+      }
       return api
     },
     pull: function(listener) {
