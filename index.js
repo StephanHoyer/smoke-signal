@@ -17,8 +17,8 @@ function signal(options) {
       return api
     },
     trigger: function() {
-      var args = arguments
-      listeners.map(function(listener) {
+      var args = arguments;
+      [].concat(listeners).map(function(listener) {
         try {
           listener.apply(null, args)
         } catch(e) {
