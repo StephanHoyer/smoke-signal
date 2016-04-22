@@ -23,6 +23,13 @@ function signal (options) {
       }
       return api
     },
+    once: function (listener) {
+      var handler = api.push(function() {
+        listener.apply(null, arguments)
+        handler.pause()
+      });
+      return handler
+    },
     trigger: function () {
       var args = arguments;
       [].concat(listeners).map(function (listener) {

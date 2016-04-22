@@ -49,6 +49,18 @@ describe('smoke signal', function () {
     onTrigger.trigger()
   })
 
+  it('should be able to resume by reference', function () {
+    var collect = '--'
+    var onTrigger = signal()
+    var listener = onTrigger.once(function(str) {
+      collect += str
+    })
+    onTrigger.trigger('++')
+    onTrigger.trigger('||')
+    onTrigger.trigger('==')
+    expect(collect).to.be('--++')
+  })
+
   it('should be able to unlisten all', function (done) {
     var onTrigger = signal()
     function unlistend () {

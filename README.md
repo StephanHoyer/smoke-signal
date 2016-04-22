@@ -20,6 +20,9 @@ var onMySignal = signal()
 // attach listenerFn to event
 var listener = onMySignal.push(listenerFn)
 
+// allow to listen only once
+var listener = onMySignal.once(listenerFn)
+
 // trigger event
 onMySignal.trigger()
 
