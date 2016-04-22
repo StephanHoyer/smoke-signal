@@ -1,27 +1,34 @@
 'use strict'
 
-function signal(options) {
+function signal (options) {
   var listeners = []
   var api = {
-    push: function(listener) {
+    push: function (listener) {
       if (listeners.indexOf(listener) < 0) {
         listeners.push(listener)
       }
-      return api
+      return {
+        pause: function () {
+          api.pull(listener)
+        },
+        resume: function () {
+          api.push(listener)
+        }
+      }
     },
-    pull: function(listener) {
-      var index = listeners.indexOf(listener);
+    pull: function (listener) {
+      var index = listeners.indexOf(listener)
       if (index > -1) {
         listeners.splice(index, 1)
       }
       return api
     },
-    trigger: function() {
+    trigger: function () {
       var args = arguments;
-      [].concat(listeners).map(function(listener) {
+      [].concat(listeners).map(function (listener) {
         try {
           listener.apply(null, args)
-        } catch(e) {
+        } catch (e) {
           if (options && options.logExceptions) {
             console.error(e)
           }
@@ -29,7 +36,7 @@ function signal(options) {
       })
       return api
     },
-    clear: function() {
+    clear: function () {
       listeners = []
     }
   }

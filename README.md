@@ -18,13 +18,19 @@ var signal = require('smoke-signal')
 var onMySignal = signal()
 
 // attach listenerFn to event
-onMySignal.push(listenerFn)
+var listener = onMySignal.push(listenerFn)
 
 // trigger event
 onMySignal.trigger()
 
 // unlisten to event
 onMySignal.pull(listenerFn)
+
+// pause listening (pretty much the same as `onMySignal.pull(listenerFn)`)
+listener.pause()
+
+// resume listening (pretty much the same as `onMySignal.push(listenerFn)`)
+listener.resume()
 
 // remove all listeners
 onMySignal.clear()

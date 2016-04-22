@@ -7,16 +7,18 @@ describe('smoke signal', function () {
     var onTrigger = signal()
     onTrigger.push(done)
     onTrigger.trigger()
-  });
+  })
+
   it('should be called with arguments', function (done) {
     var onTrigger = signal()
-    onTrigger.push(function(arg1, arg2) {
+    onTrigger.push(function (arg1, arg2) {
       expect(arg1).to.be(1)
       expect(arg2).to.be(2)
       done()
     })
     onTrigger.trigger(1, 2)
-  });
+  })
+
   it('should be able to unlisten', function (done) {
     var onTrigger = signal()
     function unlistend () {
@@ -26,24 +28,44 @@ describe('smoke signal', function () {
     onTrigger.pull(unlistend)
     onTrigger.push(done)
     onTrigger.trigger()
-  });
+  })
+
+  it('should be able to pause by reference', function (done) {
+    var onTrigger = signal()
+    function paused () {
+      done('should not be called')
+    }
+    var listener = onTrigger.push(paused)
+    listener.pause()
+    onTrigger.push(done)
+    onTrigger.trigger()
+  })
+
+  it('should be able to resume by reference', function (done) {
+    var onTrigger = signal()
+    var listener = onTrigger.push(done)
+    listener.pause()
+    listener.resume()
+    onTrigger.trigger()
+  })
 
   it('should be able to unlisten all', function (done) {
     var onTrigger = signal()
     function unlistend () {
       done('should not be called')
     }
+    onTrigger.push(unlistend)
     onTrigger.clear()
     onTrigger.trigger()
     done()
-  });
+  })
 
   it('should handle exceptions', function (done) {
     var onTrigger = signal()
-    onTrigger.push(function() {
+    onTrigger.push(function () {
       throw new Error('should not bubble up')
-    });
+    })
     onTrigger.push(done)
     onTrigger.trigger()
-  });
-});
+  })
+})
