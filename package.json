@@ -4,7 +4,7 @@
   "description": "Simple small functional event observer for the browser and node",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test.js"
+    "test": "standard && mocha test.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/StephanHoyer/smoke-signal",
   "devDependencies": {
+    "standard": "^3.0.0",
     "expect.js": "^0.3.1",
     "mocha": "^2.3.4"
   }

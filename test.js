@@ -1,4 +1,4 @@
-
+/* eslint-env mocha */
 var signal = require('./')
 var expect = require('expect.js')
 
@@ -52,7 +52,7 @@ describe('smoke signal', function () {
   it('should be able to resume by reference', function () {
     var collect = '--'
     var onTrigger = signal()
-    var listener = onTrigger.once(function(str) {
+    onTrigger.once(function (str) {
       collect += str
     })
     onTrigger.trigger('++')
