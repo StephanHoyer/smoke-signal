@@ -36,7 +36,9 @@ function signal (options) {
         try {
           listener.apply(null, args)
         } catch (e) {
-          if (options && options.logExceptions) {
+          if (options && options.onError) {
+            options.onError(e)
+          } else if (options && options.logExceptions) {
             console.error(e)
           }
         }

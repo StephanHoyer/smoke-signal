@@ -56,3 +56,46 @@ onMySignal.push(function(arg) {
 // trigger event
 onMySignal.trigger('foo')
 ```
+
+### Error handling
+
+There are three ways of handling errors in listener, ignore (default), log, handle
+
+To log the errors initialize with option `logExceptions`.
+
+```javascript
+var signal = require('smoke-signal')
+
+var onMySignal = signal({
+  logExceptions: true
+})
+
+// attach listenerFn to event
+onMySignal.push(function() {
+  throw new Error('BOOM!')
+})
+
+// trigger event
+onMySignal.trigger()
+// logs error to std.error
+```
+
+To handle errors initialize with option `onError`
+
+```javascript
+var signal = require('smoke-signal')
+
+var onMySignal = signal({
+  onError: function(err) {
+    // do something about the error here
+  }
+})
+
+// attach listenerFn to event
+onMySignal.push(function() {
+  throw new Error('BOOM!')
+})
+
+// trigger event
+onMySignal.trigger()
+```

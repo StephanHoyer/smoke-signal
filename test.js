@@ -80,4 +80,18 @@ describe('smoke signal', function () {
     onTrigger.push(done)
     onTrigger.trigger()
   })
+
+  it('should allow to add custom exception handler', function (done) {
+    var error = new Error('should land in error handler')
+    var onTrigger = signal({
+      onError: function (err) {
+        expect(error).to.eql(err)
+        done()
+      }
+    })
+    onTrigger.push(function () {
+      throw error
+    })
+    onTrigger.trigger()
+  })
 })
