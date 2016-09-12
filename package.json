@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/StephanHoyer/smoke-signal",
   "devDependencies": {
-    "standard": "^7.1.1",
+    "standard": "^8.0.0",
     "expect.js": "^0.3.1",
     "mocha": "^2.5.0"
   }
