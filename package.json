@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test.js",
-    "lint": "prettier -w *.js"
+    "lint": "prettier -w *.js *.md"
   },
   "repository": {
     "type": "git",

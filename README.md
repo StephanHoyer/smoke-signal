@@ -15,15 +15,15 @@ npm install smoke-signal
 ## Usage
 
 ```javascript
-var signal = require('smoke-signal')
+const signal = require('smoke-signal')
 
-var onMySignal = signal()
+const onMySignal = signal()
 
 // attach listenerFn to event
-var listener = onMySignal.push(listenerFn)
+const listenAll = onMySignal.push(listenerFn)
 
 // allow to listen only once
-var listener = onMySignal.once(listenerFn)
+const listenOnce = onMySignal.once(listenerFn)
 
 // trigger event
 onMySignal.trigger()
@@ -32,10 +32,10 @@ onMySignal.trigger()
 onMySignal.pull(listenerFn)
 
 // pause listening (pretty much the same as `onMySignal.pull(listenerFn)`)
-listener.pause()
+listenAll.pause()
 
 // resume listening (pretty much the same as `onMySignal.push(listenerFn)`)
-listener.resume()
+listenAll.resume()
 
 // remove all listeners
 onMySignal.clear()
@@ -44,12 +44,12 @@ onMySignal.clear()
 It's also possible to listen and trigger with args
 
 ```javascript
-var signal = require('smoke-signal')
+const signal = require('smoke-signal')
 
-var onMySignal = signal()
+const onMySignal = signal()
 
 // attach listenerFn to event
-onMySignal.push(function(arg) {
+onMySignal.push(function (arg) {
   // arg === 'foo'
 })
 
@@ -64,14 +64,14 @@ There are three ways of handling errors in listener, ignore (default), log, hand
 To log the errors initialize with option `logExceptions`.
 
 ```javascript
-var signal = require('smoke-signal')
+const signal = require('smoke-signal')
 
-var onMySignal = signal({
-  logExceptions: true
+const onMySignal = signal({
+  logExceptions: true,
 })
 
 // attach listenerFn to event
-onMySignal.push(function() {
+onMySignal.push(function () {
   throw new Error('BOOM!')
 })
 
@@ -83,16 +83,16 @@ onMySignal.trigger()
 To handle errors initialize with option `onError`
 
 ```javascript
-var signal = require('smoke-signal')
+const signal = require('smoke-signal')
 
-var onMySignal = signal({
-  onError: function(err) {
+const onMySignal = signal({
+  onError: function (err) {
     // do something about the error here
-  }
+  },
 })
 
 // attach listenerFn to event
-onMySignal.push(function() {
+onMySignal.push(function () {
   throw new Error('BOOM!')
 })
 
