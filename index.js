@@ -1,8 +1,8 @@
 'use strict'
 
-function signal (options) {
-  var listeners = []
-  var api = {
+function signal({ onError, logExceptions } = {}) {
+  let listeners = []
+  const api = {
     push: function (listener) {
       if (listeners.indexOf(listener) < 0) {
         listeners.push(listener)
@@ -13,32 +13,31 @@ function signal (options) {
         },
         resume: function () {
           api.push(listener)
-        }
+        },
       }
     },
     pull: function (listener) {
-      var index = listeners.indexOf(listener)
+      const index = listeners.indexOf(listener)
       if (index > -1) {
         listeners.splice(index, 1)
       }
       return api
     },
     once: function (listener) {
-      var handler = api.push(function () {
-        listener.apply(null, arguments)
+      const handler = api.push(function (...args) {
+        listener(...args)
         handler.pause()
       })
       return handler
     },
-    trigger: function () {
-      var args = arguments;
-      [].concat(listeners).map(function (listener) {
+    trigger: function (...args) {
+      listeners.map(function (listener) {
         try {
-          listener.apply(null, args)
+          listener(...args)
         } catch (e) {
-          if (options && options.onError) {
-            options.onError(e)
-          } else if (options && options.logExceptions) {
+          if (onError) {
+            onError(e)
+          } else if (logExceptions) {
             console.error(e)
           }
         }
@@ -47,7 +46,7 @@ function signal (options) {
     },
     clear: function () {
       listeners = []
-    }
+    },
   }
   return api
 }

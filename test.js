@@ -1,16 +1,16 @@
 /* eslint-env mocha */
-var signal = require('./')
-var expect = require('expect.js')
+const signal = require('./')
+const expect = require('expect.js')
 
 describe('smoke signal', function () {
   it('should allow to listen to events', function (done) {
-    var onTrigger = signal()
+    const onTrigger = signal()
     onTrigger.push(done)
     onTrigger.trigger()
   })
 
   it('should be called with arguments', function (done) {
-    var onTrigger = signal()
+    const onTrigger = signal()
     onTrigger.push(function (arg1, arg2) {
       expect(arg1).to.be(1)
       expect(arg2).to.be(2)
@@ -20,38 +20,38 @@ describe('smoke signal', function () {
   })
 
   it('should be able to unlisten', function (done) {
-    var onTrigger = signal()
-    function unlistend () {
+    const onTrigger = signal()
+    function unheard() {
       done('should not be called')
     }
-    onTrigger.push(unlistend)
-    onTrigger.pull(unlistend)
+    onTrigger.push(unheard)
+    onTrigger.pull(unheard)
     onTrigger.push(done)
     onTrigger.trigger()
   })
 
   it('should be able to pause by reference', function (done) {
-    var onTrigger = signal()
-    function paused () {
+    const onTrigger = signal()
+    function paused() {
       done('should not be called')
     }
-    var listener = onTrigger.push(paused)
+    const listener = onTrigger.push(paused)
     listener.pause()
     onTrigger.push(done)
     onTrigger.trigger()
   })
 
   it('should be able to resume by reference', function (done) {
-    var onTrigger = signal()
-    var listener = onTrigger.push(done)
+    const onTrigger = signal()
+    const listener = onTrigger.push(done)
     listener.pause()
     listener.resume()
     onTrigger.trigger()
   })
 
-  it('should be able to resume by reference', function () {
-    var collect = '--'
-    var onTrigger = signal()
+  it('should be able to listen only once', function () {
+    let collect = '--'
+    const onTrigger = signal()
     onTrigger.once(function (str) {
       collect += str
     })
@@ -62,18 +62,18 @@ describe('smoke signal', function () {
   })
 
   it('should be able to unlisten all', function (done) {
-    var onTrigger = signal()
-    function unlistend () {
+    const onTrigger = signal()
+    function unheard() {
       done('should not be called')
     }
-    onTrigger.push(unlistend)
+    onTrigger.push(unheard)
     onTrigger.clear()
     onTrigger.trigger()
     done()
   })
 
   it('should handle exceptions', function (done) {
-    var onTrigger = signal()
+    const onTrigger = signal()
     onTrigger.push(function () {
       throw new Error('should not bubble up')
     })
@@ -82,12 +82,12 @@ describe('smoke signal', function () {
   })
 
   it('should allow to add custom exception handler', function (done) {
-    var error = new Error('should land in error handler')
-    var onTrigger = signal({
+    const error = new Error('should land in error handler')
+    const onTrigger = signal({
       onError: function (err) {
         expect(error).to.eql(err)
         done()
-      }
+      },
     })
     onTrigger.push(function () {
       throw error
