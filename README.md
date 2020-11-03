@@ -65,18 +65,17 @@ There is also an async version of signals
 ```javascript
 const signal = require('smoke-signal')
 
-const onMySignal = signal.async()
+const onMySignal = signal()
 
 // attach async listenerFn to event
 onMySignal.push(async function (arg) {
-  // can also be sync handlers of cause
+  // do async stuff
 })
 
 // trigger event
-await onMySignal.trigger('foo')
+await onMySignal.triggerAsync('foo')
 
 // this resolves when all promises are settled, think `Promise.all`, no matter what outcome
-
 ```
 
 Error handling is the same as in synchronous version.

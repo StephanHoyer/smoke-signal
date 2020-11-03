@@ -41,26 +41,17 @@ function signal({ onError, logExceptions } = {}) {
       })
       return api
     },
+    triggerAsync: async function (...args) {
+      await Promise.all(
+        listeners.map(listener =>
+          listener(...args).catch(handleError)
+        )
+      )
+      return api
+    },
     clear: function () {
       listeners = []
     },
-    get _listeners() {
-      return listeners
-    },
-  }
-  return api
-}
-
-signal.async = function ({ onError, logExceptions } = {}) {
-  const api = signal({ onError, logExceptions })
-  const handleError = onError || (logExceptions ? console.error : () => {})
-  api.trigger = async function (...args) {
-    await Promise.all(
-      api._listeners.map(listener =>
-        listener(...args).catch(handleError)
-      )
-    )
-    return api
   }
   return api
 }
