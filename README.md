@@ -58,9 +58,9 @@ onMySignal.push(function (arg) {
 onMySignal.trigger('foo')
 ```
 
-### Async signals
+### Async trigger
 
-There is also an async version of signals
+It's also possible to have async handlers and wait for all handlers to settle.
 
 ```javascript
 const signal = require('smoke-signal')
@@ -72,10 +72,9 @@ onMySignal.push(async function (arg) {
   // do async stuff
 })
 
-// trigger event
-await onMySignal.triggerAsync('foo')
-
+// trigger event and wait for all handlers to finish
 // this resolves when all promises are settled, think `Promise.all`, no matter what outcome
+await onMySignal.triggerAsync('foo')
 ```
 
 Error handling is the same as in synchronous version.
