@@ -1,6 +1,7 @@
 'use strict'
 
 function signal({ onError, logExceptions } = {}) {
+  const handleError = onError || (logExceptions ? console.error : () => {})
   let listeners = []
   const api = {
     push: function (listener) {
@@ -35,11 +36,7 @@ function signal({ onError, logExceptions } = {}) {
         try {
           listener(...args)
         } catch (e) {
-          if (onError) {
-            onError(e)
-          } else if (logExceptions) {
-            console.error(e)
-          }
+          handleError(e)
         }
       })
       return api
@@ -56,16 +53,11 @@ function signal({ onError, logExceptions } = {}) {
 
 signal.async = function ({ onError, logExceptions } = {}) {
   const api = signal({ onError, logExceptions })
+  const handleError = onError || (logExceptions ? console.error : () => {})
   api.trigger = async function (...args) {
     await Promise.all(
       api._listeners.map(listener =>
-        listener(...args).catch(e => {
-          if (onError) {
-            onError(e)
-          } else if (logExceptions) {
-            console.error(e)
-          }
-        })
+        listener(...args).catch(handleError)
       )
     )
     return api
