@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/StephanHoyer/smoke-signal.svg)](https://travis-ci.org/StephanHoyer/smoke-signal)
 [![rethink.js](https://img.shields.io/badge/rethink-js-yellow.svg)](https://github.com/rethinkjs/manifest)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![](https://badgen.net/bundlephobia/minzip/smoke-signal)](https://bundlephobia.com/result?p=index.js)
 
 # smoke-signal
 
@@ -56,6 +57,29 @@ onMySignal.push(function (arg) {
 // trigger event
 onMySignal.trigger('foo')
 ```
+
+### Async signals
+
+There is also an async version of signals
+
+```javascript
+const signal = require('smoke-signal')
+
+const onMySignal = signal.async()
+
+// attach async listenerFn to event
+onMySignal.push(async function (arg) {
+  // can also be sync handlers of cause
+})
+
+// trigger event
+await onMySignal.trigger('foo')
+
+// this resolves when all promises are settled, think `Promise.all`, no matter what outcome
+
+```
+
+Error handling is the same as in synchronous version.
 
 ### Error handling
 
