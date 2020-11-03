@@ -47,6 +47,28 @@ function signal({ onError, logExceptions } = {}) {
     clear: function () {
       listeners = []
     },
+    get _listeners() {
+      return listeners
+    },
+  }
+  return api
+}
+
+signal.async = function ({ onError, logExceptions } = {}) {
+  const api = signal({ onError, logExceptions })
+  api.trigger = async function (...args) {
+    await Promise.all(
+      api._listeners.map(listener =>
+        listener(...args).catch(e => {
+          if (onError) {
+            onError(e)
+          } else if (logExceptions) {
+            console.error(e)
+          }
+        })
+      )
+    )
+    return api
   }
   return api
 }

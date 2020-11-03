@@ -95,3 +95,46 @@ describe('smoke signal', function () {
     onTrigger.trigger()
   })
 })
+
+describe('async smoke-signal', function () {
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  it('should run wait for all async listeners to settle', async function () {
+    let triggered = false
+    const onTrigger = signal.async({ logExceptions: true })
+    onTrigger.push(async function () {
+      await sleep(1)
+      triggered = true
+    })
+    expect(triggered).to.be(false)
+    await onTrigger.trigger()
+    expect(triggered).to.be(true)
+  })
+
+  it('should handle exceptions', async function () {
+    const onTrigger = signal.async()
+    onTrigger.push(async function () {
+      await sleep(1)
+      throw new Error('should not bubble up')
+    })
+    await onTrigger.trigger()
+  })
+
+  it('should allow to add custom exception handler', async function () {
+    let catchedError
+    const error = new Error('should land in error handler')
+    const onTrigger = signal.async({
+      onError: function (err) {
+        catchedError = err
+      },
+    })
+    onTrigger.push(async function () {
+      await sleep(1)
+      throw error
+    })
+    await onTrigger.trigger()
+    expect(catchedError).to.be(error)
+  })
+})
