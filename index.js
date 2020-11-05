@@ -32,7 +32,7 @@ function signal({ onError, logExceptions } = {}) {
       return handler
     },
     trigger: function (...args) {
-      listeners.map(function (listener) {
+      [...listeners].map(function (listener) {
         try {
           listener(...args)
         } catch (e) {

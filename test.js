@@ -9,6 +9,26 @@ describe('smoke signal', function () {
     onTrigger.trigger()
   })
 
+  it('should run all handlers that are active when calling the event, no matter if they where paused by an other event', function () {
+    let handlerCalled = false
+    const onTrigger = signal()
+    function handler() {
+      handlerCalled = true
+    }
+    // first handler, that pauses second handler
+    onTrigger.push(() => {
+      onTrigger.pull(handler)
+    })
+    // second handler
+    onTrigger.push(handler)
+
+    // trigger event
+    onTrigger.trigger()
+
+    // both handlers should be called
+    expect(handlerCalled).to.be(true)
+  })
+
   it('should be called with arguments', function (done) {
     const onTrigger = signal()
     onTrigger.push(function (arg1, arg2) {
